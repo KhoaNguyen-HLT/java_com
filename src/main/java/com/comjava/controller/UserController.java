@@ -7,10 +7,14 @@ import com.comjava.dto.request.userCreationRequest;
 import com.comjava.dto.request.userUpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+@Slf4j
 @RequestMapping("/users")
 @RestController
 public class UserController {
@@ -29,7 +33,10 @@ public class UserController {
 
     @GetMapping
     public List<User> getUsers() {
-    return userService.getUsers();
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        log.info("username: {}", authentication.getName());
+        authentication.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
+        return userService.getUsers();
     }
 
     @GetMapping("/{userid}")

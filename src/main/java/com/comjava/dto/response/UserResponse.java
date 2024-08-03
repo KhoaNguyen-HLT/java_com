@@ -15,7 +15,6 @@ import java.util.Set;
 public class UserResponse {
     public String id;
     public String username;
-    public String password;
     public String firstname;
     public String lastname;
     public LocalDate date;
